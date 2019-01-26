@@ -31,6 +31,22 @@ custom:
     certificateName: "*.tojo.tokyo"
     stage: ${self:provider.stage}
     createRoute53Record: true
+  layer: arn:aws:lambda:ap-northeast-1:488514468674:layer:bootstrap:2
 
 plugins:
   - serverless-domain-manager
+
+functions:
+  index:
+    handler: main.index
+    events:
+      - http:
+          method: get
+          path: /
+          integration: lambda
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
+    layers:
+      - ${self:custom.layer}
