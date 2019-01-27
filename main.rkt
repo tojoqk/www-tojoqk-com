@@ -3,12 +3,7 @@
 
 (module+ test
   (require xml)
-  (require rackunit)
-  (define (html5->xexpr str)
-    (cond
-      [(regexp-match #rx"<!(?i:doctype html)>(.*)" str)
-       => (compose string->xexpr cadr)]
-      [else #f])))
+  (require rackunit))
 
 (define (index input)
   (bootstrap
