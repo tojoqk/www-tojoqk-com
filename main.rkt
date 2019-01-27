@@ -2,7 +2,12 @@
 (require xml)
 
 (module+ test
-  (require rackunit))
+  (require rackunit)
+  (define (html5->xexpr str)
+    (cond
+      [(regexp-match #rx"<!(?i:doctype html)>(.*)" str)
+       => (compose string->xexpr cadr)]
+      [else #f])))
 
 (define (bootstrap head body)
   `(html
@@ -37,4 +42,5 @@
 (provide index)
 
 (module+ test
-  (check-pred string? (index 'a)))
+  (check-pred string? (index 'a))
+  (check-pred xexpr? (html5->xexpr (index 'a))))
