@@ -1,6 +1,9 @@
 #lang racket/base
 (require xml)
 
+(module+ test
+  (require rackunit))
+
 (define (bootstrap head body)
   `(html
     ([lanfg "en"])
@@ -32,3 +35,6 @@
      '((title "Hello, World!"))
      '((h1 "Hello, world!"))))))
 (provide index)
+
+(module+ test
+  (check-pred string? (index 'a)))
