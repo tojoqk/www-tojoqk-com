@@ -7,8 +7,22 @@
 
 (define (index input)
   (bootstrap
-   '((title "Hello, World!"))
-   '((h1 "Hello, world!"))))
+   '((title "TojoQK"))
+   `((nav ([class "navbar navbar-expand-sm navbar-light bg-light"])
+          (div ([class "container"])
+               (ul ([class "navbar-nav mr-auto"])
+                   (li ([class "nav-item"])
+                       (a ([class "navbar-brand"]
+                           [href "/"])
+                          "TojoQK")))
+               (ul ([class "navbar-nav"])
+                   (li ([class "nav-item"])
+                       (a ([class "nav-link"]
+                           [href "/about-me.html"])
+                          "About me")))))
+     (div ([class "container"])
+          "ようこそ!"
+          "tojoqkのホームページTojoQKです"))))
 (provide index)
 
 (module+ test
