@@ -14,12 +14,7 @@
                    (li ([class "nav-item"])
                        (a ([class "navbar-brand"]
                            [href "/"])
-                          "TojoQK")))
-               (ul ([class "navbar-nav"])
-                   (li ([class "nav-item"])
-                       (a ([class "nav-link"]
-                           [href "/about-me.html"])
-                          "About me")))))
+                          "TojoQK")))))
      (div ([class "container"])
           (img ([src "https://dwlsypxdguxvw.cloudfront.net/TojoQK.svg"]
                 [class "img-fluid"]))
