@@ -1,0 +1,11 @@
+*~
+\#*
+.\#*
+.DS_Store
+compiled/
+/doc/
+
+.serverless
+node_modules
+
+bootstrap

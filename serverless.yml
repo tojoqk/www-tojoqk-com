@@ -1,0 +1,52 @@
+#lang aws-lambda-serverless
+service: www-tojoqk-com
+
+provider:
+  name: aws
+  runtime: provided
+  region: ap-northeast-1
+  memorySize: 256
+  timeout: 1
+  resourcePolicy:
+    - Effect: Allow
+      Principal: "*"
+      Action: execute-api:Invoke
+      Resource:
+        - execute-api:/*/*/*
+      Condition:
+        IpAddress:
+          aws:SourceIp: ${self:custom.sourceIP.${self:provider.stage}}
+
+custom:
+  suffix:
+    prd: ""
+    dev: -dev
+  sourceIP:
+    prd: 0.0.0.0/0
+    dev: ${env:SOURCE_IP}/32
+  customDomain:
+    region: ap-northeast-1
+    domainName: www${self:custom.suffix.${self:provider.stage}}.tojoqk.com
+    basePath: ''
+    certificateName: "*.tojoqk.com"
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+  layer: arn:aws:lambda:ap-northeast-1:488514468674:layer:bootstrap:2
+
+plugins:
+  - serverless-domain-manager
+
+functions:
+  index:
+    handler: main.index
+    events:
+      - http:
+          method: get
+          path: /
+          integration: lambda
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
+    layers:
+      - ${self:custom.layer}
