@@ -21,8 +21,10 @@
                            [href "/about-me.html"])
                           "About me")))))
      (div ([class "container"])
-          "ようこそ!"
-          "tojoqkのホームページTojoQKです"))))
+          (img ([src "https://dwlsypxdguxvw.cloudfront.net/TojoQK.svg"]
+                [class "img-fluid"]))
+          "ようこそ!" (br)
+          "こちらはTojoQKのホームページです。"))))
 (provide index)
 
 (module+ test
