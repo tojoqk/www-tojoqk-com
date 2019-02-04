@@ -1,10 +1,10 @@
 #lang scribble/manual
-@require[@for-label[www-tojo-tokyo
+@require[@for-label[www-tojoqk-com
                     racket/base]]
 
-@title{www-tojo-tokyo}
-@author{Masaya Tojo}
+@title{www-tojoqk-com}
+@author{tojoqk}
 
-@defmodule[www-tojo-tokyo]
+@defmodule[www-tojoqk-com]
 
-My personal website.
+Package Description Here
