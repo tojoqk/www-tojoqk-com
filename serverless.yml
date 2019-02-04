@@ -1,5 +1,5 @@
 #lang aws-lambda-serverless
-service: www-tojo-tokyo
+service: www-tojoqk-com
 
 provider:
   name: aws
@@ -26,9 +26,9 @@ custom:
     dev: ${env:SOURCE_IP}/32
   customDomain:
     region: ap-northeast-1
-    domainName: www${self:custom.suffix.${self:provider.stage}}.tojo.tokyo
+    domainName: www${self:custom.suffix.${self:provider.stage}}.tojoqk.com
     basePath: ''
-    certificateName: "*.tojo.tokyo"
+    certificateName: "*.tojoqk.com"
     stage: ${self:provider.stage}
     createRoute53Record: true
   layer: arn:aws:lambda:ap-northeast-1:488514468674:layer:bootstrap:2

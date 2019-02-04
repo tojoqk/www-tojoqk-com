@@ -1,5 +1,5 @@
 #lang info
-(define collection "www-tojo-tokyo")
+(define collection "www-tojoqk-com")
 (define deps '("base"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
 (define scribblings '(("scribblings/www-tojo-tokyo.scrbl" ())))

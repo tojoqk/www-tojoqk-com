@@ -1,3 +1,3 @@
-www-tojo-tokyo
+www-tojoqk-com
 ==============
 My personal website.
