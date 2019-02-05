@@ -6,7 +6,8 @@ provider:
   runtime: provided
   region: ap-northeast-1
   memorySize: 256
-  timeout: 1
+  timeout: 2
+  logRetentionInDays: 30
   resourcePolicy:
     - Effect: Allow
       Principal: "*"
