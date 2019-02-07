@@ -5,17 +5,22 @@
   (require xml)
   (require rackunit))
 
-(define (index input)
+(define (template head body)
   (bootstrap
-   '((title "TojoQK"))
-   `((nav ([class "navbar navbar-expand-sm navbar-light bg-light"])
+   head
+   '((nav ([class "navbar navbar-expand-sm navbar-light bg-light"])
           (div ([class "container"])
                (ul ([class "navbar-nav mr-auto"])
                    (li ([class "nav-item"])
                        (a ([class "navbar-brand"]
                            [href "/"])
                           "TojoQK")))))
-     (div ([class "container"])
+     ,@body)))
+
+(define (index input)
+  (template
+   '((title "TojoQK"))
+   '((div ([class "container"])
           (img ([src "https://dwlsypxdguxvw.cloudfront.net/TojoQK.svg"]
                 [class "img-fluid"]))
           "ようこそ!" (br)
