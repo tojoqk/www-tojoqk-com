@@ -49,5 +49,16 @@ functions:
             headers:
               Content-Type: "'text/html'"
             template: $input.path('$')
+  about-me:
+    handler: main.about-me
+    events:
+      - http:
+          method: get
+          path: /about-me
+          integration: lambda
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
     layers:
       - ${self:custom.layer}
