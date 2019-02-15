@@ -1,5 +1,6 @@
-#lang racket
-(require xml)
+#lang racket/base
+(require racket/contract
+         xml)
 
 (define (html5->xexpr str)
   (cond
