@@ -7,4 +7,4 @@ bootstrap: serverless.yml main.rkt
 .PHONY: deploy
 
 deploy: bootstrap
-	./node_modules/serverless/bin/serverless deploy
+	docker run --rm --volume $$(pwd):/work --workdir /work amazonlinux-racket sh deploy.sh
