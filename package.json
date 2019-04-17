@@ -2,7 +2,9 @@
   "name": "www-tojoqk-com",
   "description": "",
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "serverless": "^1.40.0"
+  },
   "devDependencies": {
     "serverless-domain-manager": "^2.6.13"
   }
