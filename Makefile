@@ -1,7 +1,10 @@
+build:
+	docker build -t amazonlinux-racket .
+
 bootstrap: serverless.yml main.rkt
-	raco exe --orig-exe -o bootstrap serverless.yml
+	docker run --rm --volume $$(pwd):/work --workdir /work amazonlinux-racket sh build.sh
 
 .PHONY: deploy
 
 deploy: bootstrap
-	sls deploy
+	./node_modules/serverless/bin/serverless deploy
