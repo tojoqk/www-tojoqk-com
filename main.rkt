@@ -58,7 +58,8 @@
                    [alt ,title])))
           (div ([class "media-body"])
                (h5 ([class "mt-0"])
-                   ,title)
+                   (a ([href ,url])
+                      ,title))
                ,body)))
   (template
    `(,(title "About me"))
