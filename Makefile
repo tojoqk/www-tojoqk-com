@@ -10,3 +10,7 @@ bootstrap: serverless.yml main.rkt
 deploy: bootstrap
 	npm install
 	./node_modules/serverless/bin/serverless deploy
+
+production-deploy: bootstrap
+	npm install
+	./node_modules/serverless/bin/serverless --stage prd deploy
