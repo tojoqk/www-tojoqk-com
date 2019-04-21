@@ -48,6 +48,10 @@
                        "こちらはTojoQKのホームページです。")))))))
 (provide index)
 
+(module+ test
+  (check-pred string? (index (hash)))
+  (check-pred xexpr? (html5->xexpr (index (hash)))))
+
 (define (about-me input)
   (define (link title url icon body)
     `(div ([class "media my-4"])
@@ -58,7 +62,8 @@
                    [alt ,title])))
           (div ([class "media-body"])
                (h5 ([class "mt-0"])
-                   ,title)
+                   (a ([href ,url])
+                      ,title))
                ,body)))
   (template
    `(,(title "About me"))
@@ -71,6 +76,7 @@
                      "TojoQKのGitHubアカウント"))))))
 (provide about-me)
 
+
 (module+ test
-  (check-pred string? (index 'a))
-  (check-pred xexpr? (html5->xexpr (index 'a))))
+  (check-pred string? (about-me (hash)))
+  (check-pred xexpr? (html5->xexpr (about-me (hash)))))

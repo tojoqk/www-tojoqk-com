@@ -4,5 +4,5 @@
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
 (define scribblings '(("scribblings/www-tojoqk-com.scrbl" ())))
 (define pkg-desc "My Web Site")
-(define version "0.2")
+(define version "0.3")
 (define pkg-authors '(tojoqk))

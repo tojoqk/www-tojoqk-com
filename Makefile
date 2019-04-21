@@ -1,7 +1,16 @@
 bootstrap: serverless.yml main.rkt
-	raco exe --orig-exe -o bootstrap serverless.yml
+	docker build -t www-tojoqk-com .
+	docker run --rm \
+                   --volume $$(pwd):/work \
+                   --workdir /work \
+                   www-tojoqk-com sh build.sh
 
 .PHONY: deploy
 
 deploy: bootstrap
-	sls deploy
+	npm install
+	STAGE=dev ./node_modules/serverless/bin/serverless deploy
+
+production-deploy: bootstrap
+	npm install
+	STAGE=prd ./node_modules/serverless/bin/serverless deploy

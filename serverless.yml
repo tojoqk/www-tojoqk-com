@@ -7,6 +7,7 @@ provider:
   region: ap-northeast-1
   memorySize: 256
   timeout: 2
+  stage: ${env:STAGE}
   logRetentionInDays: 30
   resourcePolicy:
     - Effect: Allow
@@ -41,7 +42,7 @@ functions:
   index:
     handler: main.index
     events:
-      - http:
+      - http: &get
           method: get
           path: /
           integration: lambda
@@ -49,16 +50,11 @@ functions:
             headers:
               Content-Type: "'text/html'"
             template: $input.path('$')
+    layers:
+      - ${self:custom.layer}
   about-me:
     handler: main.about-me
     events:
       - http:
-          method: get
+          <<: *get
           path: /about-me
-          integration: lambda
-          response:
-            headers:
-              Content-Type: "'text/html'"
-            template: $input.path('$')
-    layers:
-      - ${self:custom.layer}
