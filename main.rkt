@@ -40,8 +40,7 @@
                         (a ([href "https://racket-lang.org"])
                            "プログラミング言語Racket")
                         "で実装されています。"
-                        (br)
-                        "ソースコードは"
+                        "ソースは"
                         (a ([href "https://github.com/tojoqk/www-tojoqk-com"])
                            "こちら")))))))
 
