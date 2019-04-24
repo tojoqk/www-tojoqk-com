@@ -35,14 +35,14 @@
      ,@body
      (footer ([class "footer"])
              (div ([class "container"])
-                  (span ([class "text-muted"])
-                        "このWebサイトは"
-                        (a ([href "https://racket-lang.org"])
-                           "プログラミング言語Racket")
-                        "で実装されています。"
-                        "ソースは"
-                        (a ([href "https://github.com/tojoqk/www-tojoqk-com"])
-                           "こちら")))))))
+                  (p ([class "text-muted"])
+                     "このWebサイトは"
+                     (a ([href "https://racket-lang.org"])
+                        "プログラミング言語Racket")
+                     "で実装されています。"
+                     "ソースは"
+                     (a ([href "https://github.com/tojoqk/www-tojoqk-com"])
+                        "こちら")))))))
 
 (define (index input)
   (template
