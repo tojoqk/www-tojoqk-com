@@ -18,7 +18,16 @@
       ,(css-expr->css
         (css-expr
          [@media (#:min-width 768px)
-                 [.container #:max-width 768px]])))
+                 [.container #:max-width 768px]]
+         ;; Sticky footer styles
+         [html #:position "relative"
+               #:min-height "100%"]
+         [body #:margin-bottom "60px"]
+         [.footer #:position "absolute"
+                  #:bottom "0"
+                  #:width "100%"
+                  #:height "60px"
+                  #:background-color "#f5f5f5"])))
      ,@head)
    `((nav ([class "navbar navbar-expand-sm navbar-light bg-light"])
           (div ([class "container"])
@@ -42,7 +51,8 @@
                      "で実装されています。"
                      "ソースは"
                      (a ([href "https://github.com/tojoqk/www-tojoqk-com"])
-                        "こちら")))))))
+                        "こちら")
+                     "。"))))))
 
 (define (index input)
   (template
