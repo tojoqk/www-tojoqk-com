@@ -19,14 +19,13 @@
         (css-expr
          [@media (#:min-width 768px)
                  [.container #:max-width 768px]]
-         ;; Sticky footer styles
-         [html #:position "relative"
-               #:min-height "100%"]
-         [body #:margin-bottom "60px"]
-         [.footer #:position "absolute"
-                  #:bottom "0"
-                  #:width "100%"
-                  #:height "60px"
+         [html #:position relative
+               #:min-height 100%]
+         [body #:margin-bottom 60px]
+         [.footer #:position absolute
+                  #:bottom 0
+                  #:width 100%
+                  #:height 60px
                   #:background-color "#f5f5f5"])))
      ,@head)
    `((nav ([class "navbar navbar-expand-sm navbar-light bg-light"])
@@ -41,7 +40,8 @@
                        (a ([class "navbar-text"]
                            [href "/about-me"])
                           "About me")))))
-     ,@body
+     (div ([class "container"])
+          ,@body)
      (footer ([class "footer"])
              (div ([class "container"])
                   (p ([class "text-muted"])

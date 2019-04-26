@@ -1,6 +1,7 @@
 #lang racket/base
 (require racket/contract
-         xml)
+         xml
+         css-expr)
 
 (define (html5->xexpr str)
   (cond
