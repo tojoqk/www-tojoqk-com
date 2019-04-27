@@ -18,7 +18,15 @@
       ,(css-expr->css
         (css-expr
          [@media (#:min-width 768px)
-                 [.container #:max-width 768px]])))
+                 [.container #:max-width 768px]]
+         [html #:position relative
+               #:min-height 100%]
+         [body #:margin-bottom 60px]
+         [.footer #:position absolute
+                  #:bottom 0
+                  #:width 100%
+                  #:height 60px
+                  #:background-color "#f5f5f5"])))
      ,@head)
    `((nav ([class "navbar navbar-expand-sm navbar-light bg-light"])
           (div ([class "container"])
@@ -32,7 +40,19 @@
                        (a ([class "navbar-text"]
                            [href "/about-me"])
                           "About me")))))
-     ,@body)))
+     (div ([class "container"])
+          ,@body)
+     (footer ([class "footer"])
+             (div ([class "container"])
+                  (p ([class "text-muted"])
+                     "このWebサイトは"
+                     (a ([href "https://racket-lang.org"])
+                        "プログラミング言語Racket")
+                     "で実装されています。"
+                     "ソースは"
+                     (a ([href "https://github.com/tojoqk/www-tojoqk-com"])
+                        "こちら")
+                     "。"))))))
 
 (define (index input)
   (template
