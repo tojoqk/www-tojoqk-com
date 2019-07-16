@@ -1,16 +1,16 @@
-bootstrap: serverless.yml main.rkt
+bootstrap: serverless.yml *.rkt
 	docker build -t www-tojoqk-com .
 	docker run --rm \
                    --volume $$(pwd):/work \
                    --workdir /work \
                    www-tojoqk-com sh build.sh
 
-.PHONY: deploy
+.PHONY: deploy production-deploy
 
 deploy: bootstrap
 	npm install
-	STAGE=dev ./node_modules/serverless/bin/serverless deploy
+	STAGE=development ./node_modules/serverless/bin/serverless deploy
 
 production-deploy: bootstrap
 	npm install
-	STAGE=prd ./node_modules/serverless/bin/serverless deploy
+	STAGE=production ./node_modules/serverless/bin/serverless deploy
