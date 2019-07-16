@@ -1,4 +1,4 @@
-bootstrap: serverless.yml *.rkt
+bootstrap: Dockerfile serverless.yml *.rkt *.sh
 	docker build -t www-tojoqk-com .
 	docker run --rm \
                    --volume $$(pwd):/work \
