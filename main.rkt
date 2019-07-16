@@ -72,30 +72,6 @@
   (check-pred string? (index (hash)))
   (check-pred xexpr? (html5->xexpr (index (hash)))))
 
-(define (about-me input)
-  (define (link title url icon body)
-    `(div ([class "media my-4"])
-          (a ([href ,url])
-             (img (,[src/static icon]
-                   [class "mr-3"]
-                   [width "64"] [height "64"]
-                   [alt ,title])))
-          (div ([class "media-body"])
-               (h5 ([class "mt-0"])
-                   (a ([href ,url])
-                      ,title))
-               ,body)))
-  (template
-   `(,(title "About me"))
-   `((div ([class "container"])
-          (h1 "About me")
-          (ul ([class "list-unstyled"])
-              ,(link "Twitter" "https://www.twitter.com/tojoqk" "Twitter.svg"
-                     "TojoQKのTwitterアカウント")
-              ,(link "GitHub" "https://www.github.com" "GitHub.svg"
-                     "TojoQKのGitHubアカウント"))))))
-(provide about-me)
-
 
 (module+ test
   (check-pred string? (about-me (hash)))
