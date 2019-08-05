@@ -1,5 +1,11 @@
 #lang racket/base
-(provide src/cdn)
+(provide cdn/www-tojoqk-com)
 
-(define (src/cdn path)
-  `[src ,(string-append "https://dwlsypxdguxvw.cloudfront.net" path)])
+(define www-tojoqk-com
+  (cond
+    [(getenv "WWW_TOJOQK_COM_CDN") => values]
+    [else "dwlsypxdguxvw.cloudfront.net"]))
+
+(define (cdn/www-tojoqk-com path)
+  (string-append "https://" www-tojoqk-com "/" path))
+
