@@ -8,6 +8,7 @@
 (define-values (top-dispatch top-url)
   (dispatch-rules
    [("") (λ (req) (redirect-to "/home" permanently))]
+   [("main") (λ (req) (redirect-to "/home" permanently))]
    [("home") home]
    [("about-me") about-me]
    [else not-found]))
