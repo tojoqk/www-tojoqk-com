@@ -36,7 +36,7 @@ custom:
     production: ""
     development: -dev
   sourceIP:
-    prd: 0.0.0.0/0
+    production: 0.0.0.0/0
     development: ${env:SOURCE_IP}/32
   customDomain:
     region: ap-northeast-1
