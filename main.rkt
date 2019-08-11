@@ -27,7 +27,7 @@
 
 (define (root event)
   (hash 'statusCode 301
-        'headers (hash 'location "/main")))
+        'headers (hash 'location "/home")))
 
 (define (request event)
   (let retry ([c 10])
@@ -154,7 +154,7 @@
                  #:launch-browser? #f
                  #:quit? #t
                  #:banner? #t
-                 #:servlet-path "/main"
+                 #:servlet-path "/home"
                  #:servlet-regexp #rx""
                  #:stuffer (stuffer-chain
                             serialize-stuffer
