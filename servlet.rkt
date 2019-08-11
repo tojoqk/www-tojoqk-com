@@ -1,7 +1,7 @@
 #lang web-server
 (require web-server/http
-         "site/not-found.rkt")
          "page/home.rkt"
+         "page/not-found.rkt"
 (provide start)
 
 (define-values (top-dispatch top-url)
