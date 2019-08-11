@@ -1,13 +1,13 @@
 #lang web-server
 (require web-server/http
-         "site/main.rkt"
          "site/not-found.rkt")
+         "page/home.rkt"
 (provide start)
 
 (define-values (top-dispatch top-url)
   (dispatch-rules
-   [("") (λ (req) (redirect-to "/main" permanently))]
-   [("main") main]
+   [("") (λ (req) (redirect-to "/home" permanently))]
+   [("home") home]
    [else not-found]))
 
 (define (start req)
