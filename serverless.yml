@@ -49,8 +49,10 @@ custom:
   urlsTable:
     name: ${self:provider.stage}-www-tojoqk-com-urls
     readCapacityUnits:
+      production: 5
       development: 1
     writeCapacityUnits:
+      production: 5
       development: 1
 
 plugins:
