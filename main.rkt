@@ -151,7 +151,7 @@
   (serve/servlet start
                  #:stateless? #t
                  #:listen-ip #f
-                 #:launch-browser? #t
+                 #:launch-browser? #f
                  #:quit? #t
                  #:banner? #t
                  #:servlet-path "/main"
