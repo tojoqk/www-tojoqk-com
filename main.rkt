@@ -122,8 +122,8 @@
                                'value (hash 'S (bytes->string/utf-8 v))
                                'ttl (hash 'N
                                           (number->string
-                                           (+  (current-seconds)
-                                               3600))))
+                                           (+ (current-seconds)
+                                              3600))))
                    'TableName (urls-table-name)))
   (void))
 
