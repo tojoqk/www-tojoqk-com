@@ -7,10 +7,10 @@
 (define (game req)
   (response/xexpr/html5
    (template/main
-    #:category "げーむ"
+    #:category "ゲーム"
     #:body
     (list
-     (h1 "ゲーム")
+     (h1 "Gameの一覧")
      (ul
       (li (a #:href "./game/tic-tac-toe"
              "oxゲーム(tic-tac-toe)")))))))

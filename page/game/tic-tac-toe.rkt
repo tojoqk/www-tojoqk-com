@@ -7,7 +7,7 @@
 
 (define (template/game/tic-tac-toe containts)
   (template/main
-   #:category "げーむ"
+   #:category "ゲーム"
    #:title "tic-tac-toe"
    #:head
    (list
