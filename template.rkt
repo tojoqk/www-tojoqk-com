@@ -16,7 +16,7 @@
                        #:title [title-string #f]
                        #:head [head-items '()]
                        #:body body-items)
-  (html #:lang "en"
+  (html #:lang "ja"
         (apply head
                (meta #:charset "utf-8")
                (title (if title-string
@@ -94,7 +94,7 @@
                               item))
                         (list (a #:href "/home" "Home")
                               (a "Diary")
-                              (a "Game")
+                              (a #:href "/game" "Game")
                               (a #:href "/about-me" "About me"))))))
           (div
            #:class "main-wrap"
