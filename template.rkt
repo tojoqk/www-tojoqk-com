@@ -5,10 +5,9 @@
 
 (define max-width "960px")
 (define min-width "720px")
-(define title-bar-width "680px")
-(define title-bar-height "64px")
-(define title-image-size 64)
+(define title-bar-size "680px")
 
+(define title-image-size 128)
 
 (define (template/main #:charset [charset "utf-8"]
                        #:icon [icon ""]
@@ -35,10 +34,9 @@
                       "}"
                       ".title-bar {"
                       "  display: flex;"
-                      (format "  width: ~a;" title-bar-width)
-                      (format "  height: ~a;" title-bar-height)
+                      (format "  width: ~a;" title-bar-size)
                       "  align-items: center;"
-                      "  justify-content: space-around;"
+                      "  justify-content: space-between;"
                       "}"
                       ".title-string {"
                       "  white-space: nowrap;"
@@ -83,7 +81,9 @@
                             #:width (format "~apx" title-image-size)
                             #:height (format "~apx" title-image-size)
                             #:src (cdn/www-tojoqk-com
-                                   (format "TojoQK-circle-128x128.png"))
+                                   (format "TojoQK-circle-~ax~a.png"
+                                           title-image-size
+                                           title-image-size))
                             #:alt "")])
                   (div #:class "title-bar"
                        title-image
