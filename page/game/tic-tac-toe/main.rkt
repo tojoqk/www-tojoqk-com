@@ -2,8 +2,12 @@
 (provide make-board turn->string next board-ref board-set judge
          computer-choice)
 
+(module+ test
+  (require typed/rackunit))
+
 (define-type Turn (U 'o 'x))
 (define-type Board (Immutable-HashTable Natural Turn))
+
 
 (define LENGTH 3)
 
@@ -14,16 +18,34 @@
 (define (position->choice i j)
   (+ (* i LENGTH) j))
 
+(module+ test
+  (check-false (check-duplicates
+                (for*/list : (Listof Natural) ([i : Natural (in-range LENGTH)]
+                                               [j : Natural (in-range LENGTH)])
+                  (position->choice i j)))))
+
 (: choice->position (-> Natural (Values Natural Natural)))
 (define (choice->position n)
   (values (quotient n LENGTH)
           (modulo n LENGTH)))
+
+(module+ test
+  (check-true (for/and ([i : Natural (in-range LENGTH)]
+                        [j : Natural (in-range LENGTH)])
+                (let ([c (position->choice i j)])
+                  (let-values ([([i* : Natural] [j* : Natural]) (choice->position c)])
+                    (and (= i i*)
+                         (= j j*)))))))
 
 (: turn->string (-> Turn String))
 (define (turn->string t)
   (case t
     [(o) "o"]
     [(x) "x"]))
+
+(module+ test
+  (check-equal? (turn->string 'o) "o")
+  (check-equal? (turn->string 'x) "x"))
 
 (: board-ref (-> Board Natural Natural (Option Turn)))
 (define (board-ref b i j)
@@ -33,11 +55,19 @@
 (define (board-set b i j t)
   (hash-set b (position->choice i j) t))
 
+(module+ test
+  (check-false (board-ref (make-board) 0 0))
+  (check-equal? (board-ref (board-set (make-board) 0 0 'o) 0 0) 'o))
+
 (: next (-> Turn Turn))
 (define (next t)
   (case t
     [(o) 'x]
     [(x) 'o]))
+
+(module+ test
+  (check-equal? (next 'o) 'x)
+  (check-equal? (next 'x) 'o))
 
 (: judge (-> Turn Board (Option (U 'draw 'win))))
 (define (judge t b)
@@ -80,6 +110,10 @@
      (if (= (hash-count b) 9)
          'draw
          #f))))
+
+(module+ test
+  ;; TODO: add judge's test
+  )
 
 (: board->choices (-> Board (Listof Natural)))
 (define (board->choices b)
