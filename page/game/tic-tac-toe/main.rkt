@@ -5,19 +5,18 @@
 (define-type Turn (U 'o 'x))
 (define-type Board (Immutable-HashTable Natural Turn))
 
-(define ROWS 3)
-(define COLS 3)
+(define LENGTH 3)
 
 (define (make-board) (hash))
 
 (: position->choice (-> Natural Natural Natural))
 (define (position->choice i j)
-  (+ (* i COLS) j))
+  (+ (* i LENGTH) j))
 
 (: choice->position (-> Natural (Values Natural Natural)))
 (define (choice->position n)
-  (values (quotient n ROWS)
-          (modulo n COLS)))
+  (values (quotient n LENGTH)
+          (modulo n LENGTH)))
 
 (: turn->string (-> Turn String))
 (define (turn->string t)
@@ -45,20 +44,20 @@
   ;; i = 0, i = 1, i = 2 (pattern i)
   ;; j = 0, j = 1, j = 2 (patttern j)
   ;; i - j = 0           (pattern i-j)
-  ;; i + j = 2           (pattern i+j)
+  ;; i + j + 1 = LENGTH  (pattern i+j)
   ((inst call/cc 'win (Option (U 'win 'draw)))
    (lambda ([k : (-> 'win Nothing)])
      (: escape/win (-> Integer Integer))
      (define (escape/win n)
-       (if (= n 3)
+       (if (= n LENGTH)
            (k 'win)
            n))
      (for*/fold ([pattern-i : (Immutable-HashTable Integer Integer) (hash)]
                  [pattern-j : (Immutable-HashTable Integer Integer) (hash)]
                  [pattern-i-j : Integer 0]
                  [pattern-i+j : Integer 0])
-                ([i : Natural (in-range ROWS)]
-                 [j : Natural (in-range COLS)])
+                ([i : Natural (in-range LENGTH)]
+                 [j : Natural (in-range LENGTH)])
        (: return-zero (-> Zero))
        (define (return-zero) 0)
        (cond
@@ -72,7 +71,7 @@
                        (add1 pattern-i-j)
                        pattern-i-j))
                   (escape/win
-                   (if (= (+ i j) 2)
+                   (if (= (+ i j 1) LENGTH)
                        (add1 pattern-i+j)
                        pattern-i+j)))]
          [else
@@ -83,8 +82,8 @@
 
 (: board->choices (-> Board (Listof Natural)))
 (define (board->choices b)
-  (for*/list : (Listof Natural) ([i : Natural (in-range ROWS)]
-                                 [j : Natural (in-range COLS)]
+  (for*/list : (Listof Natural) ([i : Natural (in-range LENGTH)]
+                                 [j : Natural (in-range LENGTH)]
                                  #:when (not (board-ref b i j)))
     (position->choice i j)))
 
