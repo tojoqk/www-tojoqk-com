@@ -7,6 +7,7 @@
 
 (define LENGTH 3)
 
+(: make-board (-> Board))
 (define (make-board) (hash))
 
 (: position->choice (-> Natural Natural Natural))
