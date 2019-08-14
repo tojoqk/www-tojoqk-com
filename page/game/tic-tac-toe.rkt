@@ -90,13 +90,13 @@
         (render-board
          b
          (lambda (i j)
-           (embed/url
-            (let ([b (board-set b i j t)])
+           (let ([b (board-set b i j t)])
+             (embed/url
               (lambda (req)
                 (judge-and-next t b))))))
         (a #:href (embed/url
-                   (lambda (req)
-                     (let-values ([(i j) (computer-choice t b)])
+                   (let-values ([(i j) (computer-choice t b)])
+                     (lambda (req)
                        (let ([b (board-set b i j t)])
                          (judge-and-next t b)))))
            "コンピュータに選択させる")
