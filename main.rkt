@@ -138,7 +138,9 @@
         ['value
          (hash-table
           ['S v])])])
-     (string->bytes/utf-8 v)]))
+     (string->bytes/utf-8 v)]
+    [else
+     (error 'dynamo-read "doesn't have key: ~s" (bytes->string/utf-8 k))]))
 
 (define stuffer
   (stuffer-chain
