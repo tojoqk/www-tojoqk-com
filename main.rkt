@@ -2,6 +2,7 @@
 (require "servlet.rkt"
          "template.rkt"
          "cdn.rkt"
+         "page/not-found.rkt"
          json
          net/url
          http/request
@@ -100,7 +101,10 @@
                       #:servlet-regexp #rx""
                       #:command-line? #t
                       #:stuffer stuffer
-                      #:port port)))
+                      #:port port
+                      #:file-not-found-responder not-found
+                      #:servlet-loading-responder loading-responder
+                      #:servlet-responder error-responder)))
     (init? #f))
   (let-values ([(status headers body) (request event)])
     (let ([status-code (string->number
@@ -163,4 +167,7 @@
                             (md5-stuffer
                              (build-path (find-system-path 'home-dir)
                                          ".urls")))
-                 #:port port))
+                 #:port port
+                 #:file-not-found-responder not-found
+                 #:servlet-loading-responder loading-responder
+                 #:servlet-responder error-responder))
