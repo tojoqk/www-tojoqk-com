@@ -93,12 +93,14 @@
            (let ([b (board-set b i j t)])
              (embed/url
               (lambda (req)
-                (judge-and-next t b))))))
+                (with-init req
+                  (judge-and-next t b)))))))
         (a #:href (embed/url
                    (let-values ([(i j) (computer-choice t b)])
                      (lambda (req)
-                       (let ([b (board-set b i j t)])
-                         (judge-and-next t b)))))
+                       (with-init req
+                         (let ([b (board-set b i j t)])
+                           (judge-and-next t b))))))
            "コンピュータに選択させる")
         (a #:href "/game/tic-tac-toe"
            "リセットする")))))))

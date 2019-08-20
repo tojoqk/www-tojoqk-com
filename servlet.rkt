@@ -5,7 +5,7 @@
          "page/game.rkt"
          "page/game/tic-tac-toe.rkt"
          "page/internal-server-error.rkt"
-         web-server/private/servlet
+         "response.rkt"
          json)
 (provide start loading-responder error-responder)
 
@@ -20,10 +20,8 @@
    [else not-found]))
 
 (define (start req)
-  (current-execution-context
-   (struct-copy execution-context (current-execution-context)
-                [request req]))
-  (top-dispatch req))
+  (with-init req
+    (top-dispatch req)))
 
 (define (loading-responder url e)
   (displayln
