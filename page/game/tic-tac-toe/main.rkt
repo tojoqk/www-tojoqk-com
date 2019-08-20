@@ -120,28 +120,29 @@
                                  #:when (not (board-ref b i j)))
     (position->choice i j)))
 
-(: choice-scores (-> Turn Board (Listof (Pair Natural Integer))))
-(define (choice-scores t b)
-  (let ([all-choices (board->choices b)])
-    (for/list : (Listof (Pair Natural Integer)) ([c1 : Natural all-choices])
-      (let-values ([([i : Natural] [j : Natural]) (choice->position c1)])
-        (let ([b1 : Board (board-set b i j t)])
-          (cons
-           c1
-           (if (eq? 'win (judge t b1)) ; computer win!
-               10000
-               (for/sum : Integer ([c2 : Natural (board->choices b1)])
-                 (let-values ([([i : Natural] [j : Natural]) (choice->position c2)])
-                   (let ([b2 : Board (board-set b1 i j (next t))])
-                     (for/sum : Integer ([c3 : Natural (board->choices b2)])
-                       (let-values ([([i : Natural] [j : Natural]) (choice->position c3)])
-                         (let ([b3 : Board (board-set b1 i j (next t))])
-                           (- (if (eq? 'win (judge t b3))        ; computer win!
-                                  1
-                                  0)
-                              (if (eq? 'win (judge (next t) b3)) ; computer lose!
-                                  100
-                                  0)))))))))))))))
+(: board->score (-> Turn Board Natural Real))
+(define (board->score t b n)
+  (cond
+    [(zero? n) 0.0]
+    [else
+     (+ (if (eq? (judge t b) 'win)
+            1.0
+            0.0)
+        (for/sum : Real ([c : Natural (board->choices b)])
+          (let-values ([(i j) (choice->position c)])
+            (let ([b1 (board-set b i j (next t))])
+              (if (eq? (judge (next t) b1) 'win)
+                  -10.0
+                  (for/sum : Real ([c : Natural (board->choices b1)])
+                    (let-values ([(i j) (choice->position c)])
+                      (let ([b2 (board-set b1 i j t)])
+                        (* 0.1 (board->score t b2 (sub1 n)))))))))))]))
+
+(: choice-scores (-> Turn Board Natural (Listof (Pair Natural Real))))
+(define (choice-scores t b n)
+  (for/list : (Listof (Pair Natural Real)) ([c : Natural (board->choices b)])
+    (let-values ([(i j) (choice->position c)])
+      (cons c (board->score t (board-set b i j t) n)))))
 
 (: random-ref (All (A) (-> (Listof A) A)))
 (define (random-ref l)
@@ -149,9 +150,9 @@
 
 (: computer-choice (-> Turn Board (Values Natural Natural)))
 (define (computer-choice t b)
-  (let ([choice+scores : (Listof (Pairof Natural Integer)) (choice-scores t b)])
-    (let ([max-score : Integer (apply max ((inst map Integer (Pairof Natural Integer)) cdr choice+scores))])
+  (let ([choice+scores : (Listof (Pairof Natural Real)) (choice-scores t b 2)])
+    (let ([max-score : Real (apply max ((inst map Real (Pairof Natural Real)) cdr choice+scores))])
       (choice->position
-       ((inst car Natural Integer)
+       ((inst car Natural Real)
         (random-ref
-         (filter (λ ([p : (Pairof Natural Integer)]) (<= max-score (cdr p))) choice+scores)))))))
+         (filter (λ ([p : (Pairof Natural Real)]) (<= max-score (cdr p))) choice+scores)))))))
