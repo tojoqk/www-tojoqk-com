@@ -89,8 +89,6 @@
                  [pattern-i+j : Integer 0])
                 ([i : Natural (in-range LENGTH)]
                  [j : Natural (in-range LENGTH)])
-       (: return-zero (-> Zero))
-       (define (return-zero) 0)
        (cond
          [(eqv? t (board-ref b i j))
           (values (hash-set pattern-i j (escape/win (add1 (or ((inst hash-ref Integer Integer) pattern-i j #f)
