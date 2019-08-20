@@ -150,7 +150,7 @@
 
 (: computer-choice (-> Turn Board (Values Natural Natural)))
 (define (computer-choice t b)
-  (let ([choice+scores : (Listof (Pairof Natural Real)) (choice-scores t b 2)])
+  (let ([choice+scores : (Listof (Pairof Natural Real)) (choice-scores t b 3)])
     (let ([max-score : Real (apply max ((inst map Real (Pairof Natural Real)) cdr choice+scores))])
       (choice->position
        ((inst car Natural Real)
