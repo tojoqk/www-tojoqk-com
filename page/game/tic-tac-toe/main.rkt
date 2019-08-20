@@ -125,19 +125,17 @@
   (cond
     [(zero? n) 0.0]
     [else
-     (+ (if (eq? (judge t b) 'win)
-            1.0
-            0.0)
-        (for/sum : Real ([c : Natural (board->choices b)])
-          (let-values ([(i j) (choice->position c)])
-            (let ([b1 (board-set b i j (next t))])
-              (if (and (not (eq? (judge t b1) 'win))
-                       (eq? (judge (next t) b1) 'win))
-                  -10.0
-                  (for/sum : Real ([c : Natural (board->choices b1)])
-                    (let-values ([(i j) (choice->position c)])
-                      (let ([b2 (board-set b1 i j t)])
-                        (* 0.1 (board->score t b2 (sub1 n)))))))))))]))
+     (if (eq? (judge t b) 'win)
+         1.0
+         (for/sum : Real ([c : Natural (board->choices b)])
+           (let-values ([(i j) (choice->position c)])
+             (let ([b1 (board-set b i j (next t))])
+               (if (eq? (judge (next t) b1) 'win)
+                   -10.0
+                   (for/sum : Real ([c : Natural (board->choices b1)])
+                     (let-values ([(i j) (choice->position c)])
+                       (let ([b2 (board-set b1 i j t)])
+                         (* 0.1 (board->score t b2 (sub1 n)))))))))))]))
 
 (: choice-scores (-> Turn Board Natural (Listof (Pair Natural Real))))
 (define (choice-scores t b n)
