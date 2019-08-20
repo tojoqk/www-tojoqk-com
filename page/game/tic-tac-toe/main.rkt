@@ -131,7 +131,8 @@
         (for/sum : Real ([c : Natural (board->choices b)])
           (let-values ([(i j) (choice->position c)])
             (let ([b1 (board-set b i j (next t))])
-              (if (eq? (judge (next t) b1) 'win)
+              (if (and (not (eq? (judge t b1) 'win))
+                       (eq? (judge (next t) b1) 'win))
                   -10.0
                   (for/sum : Real ([c : Natural (board->choices b1)])
                     (let-values ([(i j) (choice->position c)])
