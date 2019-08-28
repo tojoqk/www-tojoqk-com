@@ -1,4 +1,4 @@
-#lang racket
+#lang typed/racket
 (require (for-syntax (only-in racket/list append-map)))
 
 (define-syntax (define-tag/provide stx)
@@ -9,6 +9,13 @@
                                        (map (λ (sym) (datum->syntax #'k sym))
                                             global-attrs))])
        #`(begin
+           (: name (-> #,@(map
+                           (λ (attr-stx)
+                             (let ([kattr (string->keyword (symbol->string (syntax->datum attr-stx)))])
+                               #`[#,kattr (Option String)]))
+                           (syntax->list #'(attr ...)))
+                       Sexp *
+                       Sexp))
            (define (name
                     #,@(append-map
                         (λ (attr/syntax)
@@ -24,6 +31,9 @@
                     ,@(filter identity xs)))
            (provide name)))]))
 
+(: at (-> Symbol (U (Option (U String (-> (List Symbol String)))))
+          (U (List (List Symbol String))
+             Null)))
 (define (at name value)
   (cond
     [(not value) '()]
