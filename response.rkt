@@ -12,7 +12,7 @@
                                  #:code [code 200]
                                  #:headers [headers (hash)])
   (hash 'statusCode code
-        'headers headers
+        'headers (hash 'Content-Type "text/html; charset=utf-8")
         'body (string-append "<!DOCTYPE html>"
                              (xexpr->string
                               (renderer-render xexpr)))))
