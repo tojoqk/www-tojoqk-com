@@ -3,10 +3,10 @@
          "../renderer.rkt"
          "../response.rkt"
          "../template.rkt")
-(provide not-found)
+(provide page/not-found)
 
-(: not-found (-> Request Response))
-(define (not-found req)
+(: page/not-found (-> Request Response))
+(define (page/not-found req)
   (response/renderer/html5
    #:code 404
    (template/main

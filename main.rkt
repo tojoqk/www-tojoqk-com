@@ -2,7 +2,8 @@
 (require json
          "template.rkt"
          "page/home.rkt"
-         "page/not-found.rkt")
+         "page/not-found.rkt"
+         "page/internal-server-error.rkt")
 (provide root
          home
          not-found)
@@ -16,6 +17,13 @@
 (define (root event)
   (hash 'statusCode 301
         'headers (hash 'location "/home")))
+
+(define (page page/)
+  (lambda (event)
+    (with-handlers ([exn:fail?
+                     (lambda (e)
+                       (write-log event (page/internal-server-error)))])
+      (write-log event (page/ event)))))
 
 (define (write-log event response)
   (let* ([request-context (hash-ref event 'requestContext)]
@@ -38,14 +46,11 @@
                               (hash-ref event
                                         'multiValueQueryStringParameters))
                         (cons 'statusCode
-                              (hash-ref 'statusCode response))
+                              (hash-ref response 'statusCode))
                         (cons 'sourceIp (hash-ref identity 'sourceIp))
                         (cons 'userAgent (hash-ref identity 'userAgent))))
              ","))
     response))
 
-(define (home event)
-  (write-log event (page/home event)))
-
-(define (not-found event)
-  (write-log event (page/home event)))
+(define home (page page/home))
+(define not-found (page page/not-found))
