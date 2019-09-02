@@ -1,11 +1,13 @@
-#lang web-server
-(require "../response.rkt"
-         "../html.rkt"
+#lang typed/racket
+(require "../request.rkt"
+         "../response.rkt"
+         "../renderer.rkt"
          "../template.rkt")
-(provide home)
+(provide page/home)
 
-(define (home req)
-  (response/xexpr/html5
+(: page/home (-> Request Response))
+(define (page/home req)
+  (response/renderer/html5
    (template/main
     #:category "ホーム"
     #:body
@@ -15,5 +17,6 @@
      (p "主にゲームや日記(未実装)を公開する予定です。")
      (h2 "目次")
      (ul
-      (li (h3 (a #:href "/game" "Game")))
-      (li (h3 (a #:href "/about-me" "About me"))))))))
+      (list
+       (li (h3 (a #:href "/game" "Game")))
+       (li (h3 (a #:href "/about-me" "About me")))))))))

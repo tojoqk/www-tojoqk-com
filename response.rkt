@@ -1,27 +1,18 @@
-#lang racket
-(provide response/xexpr/html5
-         with-init)
-(require web-server/http/xexpr
-         web-server/lang/web
-         web-server/private/servlet)
+#lang typed/racket
+(provide response/renderer/html5 Response)
+(require "renderer.rkt")
+(require/typed xml [xexpr->string (-> Any String)])
 
-(define (response/xexpr/html5 xexpr
-                              #:code [code 200]
-                              #:message [message #f]
-                              #:headers [headers empty]
-                              #:cookies [cookies empty])
-  (response/xexpr xexpr
-                  #:preamble #"<!DOCTYPE html>"
-                  #:code code
-                  #:message message
-                  #:headers headers
-                  #:cookies cookies))
-
-(define-syntax-rule (with-init req body body* ...)
-  (call-with-init req (lambda () body body* ...)))
-
-(define (call-with-init req thk)
-  (current-execution-context
-   (struct-copy execution-context (current-execution-context)
-                [request req]))
-  (thk))
+(define-type Response (Immutable-HashTable Symbol Any))
+(: response/renderer/html5 (-> Renderer
+                               [#:code Natural]
+                               [#:headers (Immutable-HashTable Symbol Any)]
+                               Response))
+(define (response/renderer/html5 xexpr
+                                 #:code [code 200]
+                                 #:headers [headers (hash)])
+  (hash 'statusCode code
+        'headers headers
+        'body (string-append "<!DOCTYPE html>"
+                             (xexpr->string
+                              (renderer-render xexpr)))))

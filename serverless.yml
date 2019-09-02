@@ -18,18 +18,6 @@ provider:
       Condition:
         IpAddress:
           aws:SourceIp: ${self:custom.sourceIP.${self:provider.stage}}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:ap-northeast-1:*:table/${self:custom.urlsTable.name}"
-  environment:
-    URLS_TABLE_NAME: "${self:custom.urlsTable.name}"
 
 custom:
   suffix:
@@ -46,14 +34,6 @@ custom:
     stage: ${self:provider.stage}
     createRoute53Record: true
   layer: arn:aws:lambda:ap-northeast-1:488514468674:layer:bootstrap:2
-  urlsTable:
-    name: ${self:provider.stage}-www-tojoqk-com-urls
-    readCapacityUnits:
-      production: 15
-      development: 1
-    writeCapacityUnits:
-      production: 15
-      development: 1
 
 plugins:
   - serverless-domain-manager
@@ -65,7 +45,6 @@ package:
   include:
     - bootstrap
 
-
 functions:
   root:
     handler: main.root
@@ -75,32 +54,19 @@ functions:
           path: /
     layers:
       - ${self:custom.layer}
-  web:
-    handler: main.web
+  home:
+    handler: main.home
+    events:
+      - http:
+          method: get
+          path: "/home"
+    layers:
+      - ${self:custom.layer}
+  not-found:
+    handler: main.not-found
     events:
       - http:
           method: get
           path: "/{proxy+}"
     layers:
       - ${self:custom.layer}
-
-resources:
-  Resources:
-    UrlsDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: id
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: ${self:custom.urlsTable.readCapacityUnits.${self:provider.stage}}
-          WriteCapacityUnits: ${self:custom.urlsTable.writeCapacityUnits.${self:provider.stage}}
-        TableName: ${self:custom.urlsTable.name}
-        TimeToLiveSpecification:
-          AttributeName: ttl
-          Enabled: true

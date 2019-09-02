@@ -1,5 +1,9 @@
 #lang typed/racket
 (require (for-syntax (only-in racket/list append-map)))
+(provide Renderer renderer-render)
+(struct renderer ([render : Sexp])
+  #:transparent
+  #:type-name Renderer)
 
 (define-syntax (define-tag/provide stx)
   (define global-attrs '(id class hidden))
@@ -9,13 +13,15 @@
                                        (map (λ (sym) (datum->syntax #'k sym))
                                             global-attrs))])
        #`(begin
-           (: name (-> #,@(map
-                           (λ (attr-stx)
-                             (let ([kattr (string->keyword (symbol->string (syntax->datum attr-stx)))])
-                               #`[#,kattr (Option String)]))
-                           (syntax->list #'(attr ...)))
-                       Sexp *
-                       Sexp))
+           (: name
+              (->* ()
+                   (#,@(append-map
+                        (λ (attr-stx)
+                          (let ([kattr (string->keyword (symbol->string (syntax->datum attr-stx)))])
+                            (list kattr #'(Option String))))
+                        (syntax->list #'(attr ...)))
+                    (Option (U String (Listof (Option (U String Renderer))) Renderer)))
+                   Renderer))
            (define (name
                     #,@(append-map
                         (λ (attr/syntax)
@@ -25,10 +31,22 @@
                             `(,attr/keyword [,(datum->syntax #'k attr/symbol)
                                              #f])))
                         (syntax->list #'(attr ...)))
-                    .
-                    xs)
-             `(name (,@(at 'attr attr) ...)
-                    ,@(filter identity xs)))
+                    [expr #f])
+             (let ([result : Sexp
+                           `(name (,@(at 'attr attr) ...)
+                                  ,@(cond
+                                      [(not expr) '()]
+                                      [(renderer? expr)
+                                       (list (renderer-render expr))]
+                                      [(string? expr)
+                                       (list expr)]
+                                      [else
+                                       (filter-map (lambda ([x : (Option (U String Renderer))])
+                                                     (cond
+                                                       [(renderer? x) (renderer-render x)]
+                                                       [else x]))
+                                                   expr)]))])
+               (renderer result)))
            (provide name)))]))
 
 (: at (-> Symbol (U (Option (U String (-> (List Symbol String)))))
