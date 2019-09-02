@@ -2,10 +2,14 @@
 (require json
          "template.rkt"
          "page/home.rkt"
+         "page/game.rkt"
+         "page/about-me.rkt"
          "page/not-found.rkt"
          "page/internal-server-error.rkt")
 (provide root
          home
+         game
+         about-me
          not-found)
 
 (module+ test
@@ -53,4 +57,6 @@
     response))
 
 (define home (page page/home))
+(define game (page page/game))
+(define about-me (page page/about-me))
 (define not-found (page page/not-found))

@@ -62,6 +62,22 @@ functions:
           path: "/home"
     layers:
       - ${self:custom.layer}
+  about-me:
+    handler: main.about-me
+    events:
+      - http:
+          method: get
+          path: "/about-me"
+    layers:
+      - ${self:custom.layer}
+  game:
+    handler: main.game
+    events:
+      - http:
+          method: get
+          path: "/game"
+    layers:
+      - ${self:custom.layer}
   not-found:
     handler: main.not-found
     events:
