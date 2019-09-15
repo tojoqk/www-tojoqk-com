@@ -10,16 +10,6 @@
   (response/renderer/html5
    (template/main
     #:category "紹介"
-    #:head
-    (list
-     (style
-      (list ".sns-title {"
-            "  display: flex;"
-            "  align-items: center;"
-            "}"
-            ".sns-link {"
-            "  margin-left: 10px;"
-            "}")))
     #:body
     (list
      (h1 "TojoQKについて")
@@ -33,7 +23,6 @@
             "repo")
          ")。"))
      (div
-      #:class "sns-title"
       (list
        (h2 "Twitter")
        (div
@@ -44,7 +33,6 @@
              "このホームページについての問い合わせは、"
              "Twitter で DM や Replay をしていただく形でお願いします。"))))))
      (div
-      #:class "sns-title"
       (list
        (h2 "GitHub")
        (div
